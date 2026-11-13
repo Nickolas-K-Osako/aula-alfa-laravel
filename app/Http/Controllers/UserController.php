@@ -10,7 +10,7 @@ use App\Models\Profile;
 
 class UserController extends Controller
 {
-    
+
    public function index(){
     $users = User::paginate(5);
 
@@ -23,7 +23,7 @@ class UserController extends Controller
    public function show($id)
    {
     $user = User::find($id);
-  
+
     return view('user.show',[
         'user' => $user]);
 
@@ -56,7 +56,7 @@ class UserController extends Controller
    public function edit($id)
    {
        $user = User::find($id);
-       $user->load('profile','languages');
+       $user->load('profile');
        return view('user.edit', [
            'user' => $user
        ]);
@@ -83,7 +83,7 @@ class UserController extends Controller
 
    public function updateProfile(User $user ,Request $request)
    {
-       
+
        $input = $request->validate([
            'type' => 'required|string|in:PJ,PF',
            'address' => [
@@ -92,7 +92,7 @@ class UserController extends Controller
                'max:255'
            ],
        ]);
-       
+
        Profile::updateOrCreate(
            ['user_id' => $user->id],
            $input
